@@ -14,13 +14,6 @@ PAR(--agree-tos)
 
 ## get item count using ${domains[@]} ##
 
-cat peptides.txt | while read line 
-do
-   # do something with $line here
-done
-
-
-
 for SITE in "${domains[@]}"
 
 do
