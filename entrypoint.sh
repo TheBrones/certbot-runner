@@ -24,7 +24,7 @@ else
 fi
 
 # Setup a cron schedule
-echo "* * * * * /run.sh >> /var/log/cron.log 2>&1 || msmtp -a $email"
+echo "* * * * * /run.sh >> /var/log/cron.log 2>&1 || msmtp -a $email
 # This extra line makes it a valid cron" > scheduler.txt
 crontab scheduler.txt
 

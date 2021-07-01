@@ -4,14 +4,14 @@ Work in progress and not working yet!
 Certbot in a docker container that runs a http server to use as a proxy backend. 
 This container needs to catch the challange from Let's Encrypt so a rule on the proxy is required. 
 
-#Components:
+# Components:
   - Certbot standalone.
   - Scheduled (cron) jobs to run everything.
   - Msmtp for sending E-mail alerts when job fails (also logged).
   - Actions, configurable actions to execute after succesful run to for example reload the configuration of the proxyserver(s). (not implemented)
 
 
-#Setup:
+# Setup:
 This will need a file mounted with the certs to maintain "domains.conf".
 ```domains.conf
 example.com
@@ -42,12 +42,14 @@ logfile /var/log/msmtp.log
 ```
 
 Final start command:
+```start
 docker run thebrones\certbot-runner
   -v /use/local/path/domains.conf:/domains.conf \
   -v /use/local/path/settings.conf:/settings.conf \
   -v /use/local/path/output:/output -p 80:80 \
   -v /use/local/path/msmtprc:/etc/msmtprc \
   -p 8080:80
+```
 
 # Sources
   - https://hub.docker.com/r/certbot/certbot 
