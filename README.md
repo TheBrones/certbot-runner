@@ -8,8 +8,8 @@ This container needs to catch the challange from Let's Encrypt so a rule on the 
 Components:
   - Certbot standalone
   - Scheduled (cron) jobs to run everything
-  - Logging and alert notifications, how do we know that the job was succesfully?
-  - Actions, configurable actions to execute after succesful run to for example reload the configuration of the proxyserver(s).
+  - Logging and alert notifications, how do we know that the job was succesfully? (not implemented)
+  - Actions, configurable actions to execute after succesful run to for example reload the configuration of the proxyserver(s). (not implemented)
 
 This will need a file mounted with the certs to maintain "domains.conf".
 ```domains.conf
@@ -23,16 +23,15 @@ EMAIL='example@example.com'
 TOS='--agree-tos --dry-run'
 ```
 
-Final start command:
--v /use/local/path/domains.conf:/domains.conf -v /use/local/path/settings.conf:/settings.conf -p 80:80
-
 Output folder: /output/ for .pem files
 
+Final start command:
+-v /use/local/path/domains.conf:/domains.conf -v /use/local/path/settings.conf:/settings.conf -v /use/local/path/output:/output -p 80:80
+
 Config file for actions?
-https://stackoverflow.com/questions/5983558/reading-a-config-file-from-a-shell-script
 
 
 # Sources
-https://hub.docker.com/r/certbot/certbot
-https://certbot.eff.org/docs/install.html#running-with-docker
-https://blog.knoldus.com/running-a-cron-job-in-docker-container/
+https://hub.docker.com/r/certbot/certbot 
+https://certbot.eff.org/docs/install.html#running-with-docker 
+https://blog.knoldus.com/running-a-cron-job-in-docker-container/ 
