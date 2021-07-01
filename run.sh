@@ -6,12 +6,7 @@ echo
 echo "---------- Job started on $currentDate ----------"
 
 #Load config
-if test -f /settings.conf ; then
-  . /settings.conf
-else
-  echo "No config file defined!"
-  exit 1
-fi
+. /settings.conf
 
 #EMAIL='example@gmail.com'
 #TOS='--agree-tos --dry-run'
@@ -42,15 +37,6 @@ do
   fi
 done
 
-
-#Notifications?
-#Email complete log file?
-
-
-#Actions?
-# Cron url?
-
-
-
-
-
+#Actions
+echo "Execute action: $ACTION"
+$ACTION
