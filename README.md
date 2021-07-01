@@ -13,14 +13,23 @@ Components:
 
 This will need a file mounted with the certs to maintain "domains.conf".
 ```domains.conf
-example.com example2.com
+example.com
+example2.com
 ```
+
+Also mount a "settings.conf" file for setting the following options, take note of the TOS parameter. 
+```settings.conf
+EMAIL='example@example.com'
+TOS='--agree-tos --dry-run'
+```
+
+Final start command:
+-v /use/local/path/domains.conf:/domains.conf -v /use/local/path/settings.conf:/settings.conf -p 80:80
 
 Output folder: /output/ for .pem files
 
 Config file for actions?
 https://stackoverflow.com/questions/5983558/reading-a-config-file-from-a-shell-script
-
 
 
 # Sources

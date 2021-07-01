@@ -3,6 +3,7 @@ FROM ubuntu:20.04
 
 # Install cron
 RUN apt-get update && apt-get install -y certbot cron 
+RUN rm -rf /var/lib/apt/list
 
 # Add files
 ADD run.sh /run.sh

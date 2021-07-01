@@ -1,29 +1,33 @@
 #!/bin/bash
+#Probaly the worst script you have ever seen, feel free to improve :-)
+currentDate=`date`
 echo
 echo
-echo "Job started:"
-
-#Load certificates
-domains=(example.com)
-domains=$(cat domains.conf)
+echo "---------- Job started on $currentDate ----------"
 
 #Load config
-EMAIL=(example@gmail.com)
-#   Add parameters
-PAR(--agree-tos)
+if test -f /settings.conf ; then
+  . /settings.conf
+else
+  echo "No config file defined!"
+  exit 1
+fi
 
-## get item count using ${domains[@]} ##
+#EMAIL='example@gmail.com'
+#TOS='--agree-tos --dry-run'
 
-for SITE in "${domains[@]}"
+#Loop trough domainnames in file
+for SITE in $(cat /domains.conf )
 
 do
   # do something on $SITE #
-  echo ----------------------------------------------------
-  echo Renewing ${SITE}:
+  echo ------------------- ${SITE} -------------------
  
   # --dry-run
-  certbot certonly --standalone --preferred-challenges http --http-01-port 80 --renew-by-default \
-  --non-interactive --email $EMAIL --rsa-key-size 4096 $PAR -d $SITE 
+  #certbot certonly --standalone --preferred-challenges http --http-01-port 80 --renew-by-default \
+  #--non-interactive --email $EMAIL --rsa-key-size 4096 $TOS -d $SITE 
+  echo "E-mail = $EMAIL"
+  echo "TOS = $TOS"
   
   RESULT=$?
   if [ $RESULT -eq 0 ]; then
@@ -41,7 +45,6 @@ done
 
 #Notifications?
 #Email complete log file?
-
 
 
 #Actions?
