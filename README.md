@@ -23,10 +23,12 @@ Will look for a way to put these in a env parameter soon.
 ```settings.conf
 EMAIL='example@example.com'
 TOS='--agree-tos --dry-run'
+RIGHTS='1000:1000'
 ACTON='curl https://example.com/trigger && curl https://example.com/trigger '
 ```
 E-mail parameter will be used to certbot and sending alerts.
 The action parameter can be used to execute a command like curl. 
+Rights parameter is for setting the uid and gid of the output file, useful for setting it to www-data for example.
 
 Output folder: /output/ for .pem files
 

@@ -1,14 +1,14 @@
 #!/bin/bash
-#Probaly the worst script you have ever seen, feel free to improve :-)
+# Probaly the worst script you have ever seen, feel free to improve :-)
 currentDate=`date`
 echo
 echo
 echo "---------- Job started on $currentDate ----------"
 
-#Load config
+# Load config
 . /settings.conf
 
-#Loop trough domainnames in file
+# Loop trough domainnames in file
 for SITE in $(cat /domains.conf )
 do
   echo ------------------- ${SITE} -------------------
@@ -18,13 +18,13 @@ do
   if [ $RESULT -eq 0 ]; then
     echo Succesfully requested certificate.
 
-    # Check if folder and certificate files exist. (Does not mean that the last run was succesful)
-    if [ -d "/etc/letsencrypt/live/$SITE/" ] && [ -d "/etc/letsencrypt/live/$SITE/fullchain.pem" ] && [ -d "/etc/letsencrypt/live/$SITE/privkey.pem" ]; then
+    # Check if folder and certificate files exist. (Does not mean that the last run was succesful) && [ -d "/etc/letsencrypt/live/$SITE/fullchain.pem" ] && [ -d "/etc/letsencrypt/live/$SITE/privkey.pem" ];
+    if [ -d "/etc/letsencrypt/live/$SITE/" ]; then
       # Cat files to make combined .pem files in the output folder.
-      cd /etc/letsencrypt/live/$SITE/
       cat /etc/letsencrypt/live/$SITE/fullchain.pem /etc/letsencrypt/live/$SITE/privkey.pem > /output/$SITE.pem
+      chown $RIGHTS /output/$SITE.pem
     else
-      echo -e "\e[1;31mError merging certificate!\e[0m"  
+      echo -e "\e[1;31mError finding certificate!\e[0m"  
       RESULT=1
     fi
     
@@ -32,6 +32,7 @@ do
     echo -e "\e[1;31mError obtaining certificate!\e[0m"
   fi
 done
+echo '--------'
 echo
 echo "Finished requesting certificates"
 
@@ -43,6 +44,7 @@ $ACTION
 if [ $RESULT -eq 0 ]; then
   exit 0
 else
-  echo -e "Subject: Certbot-runner encountered an error while renewing one or more certificate(s)\n\ Certbot-runner encountered an error while renewing one or more certificate(s), see the logs for details." | msmtp $EMAIL
+  # This command adds a / in the body of the E-mail, how to solve?
+  echo -e "Subject: Certbot-runner encountered an error while renewing one or more certificate(s)\n\Certbot-runner encountered an error while renewing one or more certificate(s), see the logs for details." | msmtp $EMAIL
   exit 1
 fi
