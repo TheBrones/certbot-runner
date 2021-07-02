@@ -1,15 +1,15 @@
 # Certbot-Runner
-Work in progress and not working yet!
+Work in progress!
 
-Certbot in a docker container that runs a http server to use as a proxy backend. 
-This container needs to catch the challange from Let's Encrypt so a rule on the proxy is required. 
+Certbot in a docker container that runs a http server to use as a reverse-proxy backend. 
+This container needs to catch the challange from Let's Encrypt so a rule on the reverse-proxy is required.
+This container is useful on bigger clusters with multiple proxy-servers.
 
 # Components:
   - Certbot standalone.
-  - Scheduled (cron) jobs to run everything.
-  - Msmtp for sending E-mail alerts when job fails (also logged).
-  - Actions, configurable actions to execute after succesful run to for example reload the configuration of the proxyserver(s). (not implemented)
-
+  - Scheduled (cron) job to run certbot monthly.
+  - Msmtp for sending E-mail alerts when job fails.
+  - Configurable actions to execute after succesful run to for example rsync the config and reload the configuration of the proxyserver(s).
 
 # Setup:
 This will need a file mounted with the certs to maintain "domains.conf".
@@ -33,7 +33,6 @@ Output folder: /output/ for .pem files
 Don't forget to add a file in the mount /etc/msmtprc for sending alerts. 
 This file configures the msmtp service to send outbound mail.
 ```conf
-msmtprc
 account default
 host mailserver.com
 port 25
@@ -50,6 +49,36 @@ docker run thebrones\certbot-runner
   -v /use/local/path/msmtprc:/etc/msmtprc \
   -p 8080:80
 ```
+
+Or with compose:
+````compose
+version: '3'
+services:
+  certbot-runner:
+    image: thebrones/certbot-runner
+    ports:
+    - 8080:80
+    volumes:
+      - /use/local/path/domains.conf:/domains.conf
+      - /use/local/path/settings.conf:/settings.conf 
+      - /use/local/path/output:/output
+      - /use/local/path/msmtprc:/etc/msmtprc 
+````
+
+Example HAProxy configuration:
+````haproxy.conf
+# Frontend part for forwarding traffic to certbot:
+frontend http_front
+   bind *:80
+   acl acme-challenge path_beg /.well-known/acme-challenge/
+   use_backend certbot if acme-challenge
+
+# Backend part:
+backend certbot
+   server certbot-runner certbot-runner-ip:8080
+# Note that there is no check, backend is only up for a few seconds at a time.
+
+````
 
 # Sources
   - https://hub.docker.com/r/certbot/certbot 

@@ -3,7 +3,7 @@ echo "Docker container has been started"
 
 # Check all files
 if test -f /settings.conf ; then
-  . /settings.conf
+  :
 else
   echo "No config file defined!"
   exit 1
@@ -24,7 +24,7 @@ else
 fi
 
 # Setup a cron schedule
-echo "* * * * * /run.sh >> /var/log/cron.log 2>&1 || msmtp -a $email
+echo "0 8 1 * * /run.sh >> /var/log/cron.log
 # This extra line makes it a valid cron" > scheduler.txt
 crontab scheduler.txt
 
