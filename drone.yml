@@ -1,0 +1,18 @@
+name: default
+kind: pipeline
+type: docker
+steps:
+- name: docker
+  image: plugins/docker
+  settings:
+    username: 
+      from_secret: DOCKERUSERNAME
+    password: 
+      from_secret: DOCKERPASSWORD
+    repo: thebrones/certbot-runner
+    #auto_tag: true Not working
+    tags: 
+    - latest
+  when:
+    branch: [ main ]
+    event: [ push ]
