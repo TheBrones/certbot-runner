@@ -10,7 +10,7 @@ steps:
     password: 
       from_secret: DOCKERPASSWORD
     repo: thebrones/certbot-runner
-    #auto_tag: true Not working
+    #auto_tag: true Not working 
     tags: 
     - latest
   when:
