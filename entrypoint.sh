@@ -9,6 +9,9 @@ else
   exit 1
 fi
 
+# Load config
+. /settings.conf
+
 if test -f /domains.conf ; then
   :
 else

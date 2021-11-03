@@ -27,8 +27,8 @@ TOS='--agree-tos --dry-run'
 RIGHTS='1000:1000'
 ACTON='curl https://example.com/trigger && curl https://example.com/trigger '
 ```
-E-mail parameter will be used to certbot and sending alerts.
-The action parameter can be used to execute a command like curl. 
+E-mail parameter will be used for certbot and sending alerts.
+The action parameter can be used to execute a command like curl, it will only execute if it did not detect any error's while running certbot.
 Rights parameter is for setting the uid and gid of the output file, useful for setting it to www-data for example.
 
 Output folder: /output/ for .pem files
