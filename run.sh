@@ -36,15 +36,18 @@ echo '--------'
 echo
 echo "Finished requesting certificates"
 
-#Actions
+# Actions
 echo "Execute configured action: $ACTION"
 $ACTION
 
-#Determine exit code
+# Determine exit code
 if [ $RESULT -eq 0 ]; then
+  echo "End of run"
   exit 0
 else
   # This command adds a / in the body of the E-mail, how to solve?
+  echo "Something went wrong, sending E-mail!"
   echo -e "Subject: Certbot-runner encountered an error while renewing one or more certificate(s)\n\Certbot-runner encountered an error while renewing one or more certificate(s), see the logs for details." | msmtp $EMAIL
+  echo "End of run"
   exit 1
 fi

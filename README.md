@@ -8,8 +8,9 @@ This container is useful on bigger clusters with multiple proxy-servers.
 # Components:
   - Certbot standalone.
   - Scheduled (cron) job to run certbot monthly.
+  - Curl for executing actions to other systems.
   - Msmtp for sending E-mail alerts when job fails.
-  - Configurable actions to execute after succesful run to for example rsync the config and reload the configuration of the proxyserver(s).
+  - Configurable actions to execute after succesful run to for example rsync the config and reload the configuration of the proxyserver(s) or do a POST request using curl.
 
 # Setup:
 This will need a file mounted with the certs to maintain "domains.conf".
