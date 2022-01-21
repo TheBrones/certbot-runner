@@ -1,17 +1,17 @@
 #!/bin/bash
 # Probably the worst script you have ever seen, feel free to improve :-)
 currentDate=`date`
-ERROR=0
-echo
-echo
-echo "---------- Job started on $currentDate ----------"
 
 # Load config
 . /settings.conf
 
-# Loop trough domainnames in file
-for SITE in $(cat /domains.conf )
-do
+echo
+echo "Please enter domain to request certificate"
+read SITE
+
+echo "---------- Manual job started on $currentDate ----------"
+
+# Re-use code in loop:
   echo ------------------- ${SITE} -------------------
   certbot certonly --standalone --preferred-challenges http --http-01-port 80 --renew-by-default --non-interactive --email $EMAIL --rsa-key-size 4096 $TOS -d $SITE 
   # Check for errors
@@ -26,34 +26,32 @@ do
       chown $RIGHTS /output/$SITE.pem
     else
       echo -e "\e[1;31mError finding certificate!\e[0m"  
-      ERROR=1
     fi
     
   else
     echo -e "\e[1;31mError obtaining certificate!\e[0m"
-    ERROR=1
   fi
-done
+
 echo '--------'
 echo
-echo "Finished requesting certificates"
-echo "Execute configured action: $ACTION"
-$ACTION
-echo '--------'
+echo "Finished requesting certificate manualy"
 
-# Determine exit code
-if [ $ERROR -eq 0 ]; then
-  # Actions
-  echo "No errors detected"
-  echo -e "Subject: Certbot-runner succesfuly requested one or more certificate(s)\n\Certbot-runner was succesful requesting certificate(s), see the logs for details." | msmtp $EMAIL
-  echo '--------'
-  echo "End of run"
-  exit 0
-else
-  # This command adds a / in the body of the E-mail, how to solve?
-  echo "Something went wrong, sending E-mail to warn!"
-  echo -e "Subject: Certbot-runner encountered an error while renewing one or more certificate(s)\n\Certbot-runner encountered an error while renewing one or more certificate(s), see the logs for details." | msmtp $EMAIL
-  echo '--------'
-  echo "End of run"
-  exit 1
+echo "Add domain to the domains-file for automatic renewal? y/n"
+read RUNADD
+
+if [ $RUNADD == "y" ]; then
+  echo "Adding '$SITE' to domain file"
+  echo $SITE >> /domains.conf
 fi
+
+echo "Run Actions? y/n"
+read RUNACTIONS
+
+if [ $RUNACTIONS == "y" ]; then
+  echo
+  echo "Execute configured action: $ACTION"
+  $ACTION
+  echo '--------'
+  echo "End of run"
+fi
+exit 0

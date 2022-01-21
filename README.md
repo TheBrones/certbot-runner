@@ -1,5 +1,5 @@
 # Certbot-Runner
-Release 1.0
+Release 1.1
 
 Certbot in a docker container that runs a http server to use as a reverse-proxy backend. 
 This container needs to catch the challange from Let's Encrypt so a rule on the reverse-proxy is required.

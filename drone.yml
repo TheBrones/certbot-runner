@@ -16,3 +16,17 @@ steps:
   when:
     branch: [ main ]
     event: [ push ]
+- name: docker-dev
+  image: plugins/docker
+  settings:
+    username: 
+      from_secret: DOCKERUSERNAME
+    password: 
+      from_secret: DOCKERPASSWORD
+    repo: thebrones/certbot-runner
+    #auto_tag: true Not working
+    tags: 
+    - dev
+  when:
+    branch: [ dev ]
+    event: [ push ]
