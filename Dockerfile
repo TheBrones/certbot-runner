@@ -1,4 +1,4 @@
-FROM ubuntu:latest
+FROM ubuntu:21.10
 #FROM certbot/certbot
 
 # Install cron, certbot, curl, certbot and msmtp for sending mail
