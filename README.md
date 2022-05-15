@@ -1,5 +1,5 @@
 # Certbot-Runner
-Release 1.1
+Release 1.2
 
 Certbot in a docker container that runs a http server to use as a reverse-proxy backend. 
 This container needs to catch the challange from Let's Encrypt so a rule on the reverse-proxy is required.
@@ -9,6 +9,7 @@ This container is useful on bigger clusters with multiple proxy-servers.
   - Certbot standalone.
   - Scheduled (cron) job to run certbot monthly.
   - Curl for executing actions to other systems.
+  - rysnc for uploading certificates to other servers.
   - Msmtp for sending E-mail alerts when job fails.
   - Configurable actions to execute after succesful run to for example rsync the config and reload the configuration of the proxyserver(s) or do a POST request using curl.
 

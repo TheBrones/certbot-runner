@@ -1,8 +1,8 @@
 FROM ubuntu:latest
 #FROM certbot/certbot
 
-# Install cron, certbot, curl and msmtp for sending mail
-RUN apt-get update && apt-get install -y certbot cron msmtp curl
+# Install cron, certbot, curl, certbot and msmtp for sending mail
+RUN apt-get update && apt-get install -y certbot cron msmtp rsync curl
 RUN rm -rf /var/lib/apt/list
 
 # Add scripts
