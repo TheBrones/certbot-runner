@@ -3,7 +3,7 @@ FROM ubuntu:21.10
 
 # Install cron, certbot, curl, certbot and msmtp for sending mail
 RUN apt update && apt upgrade -y
-RUN apt install -y certbot cron msmtp rsync curl
+RUN apt install -y certbot cron msmtp rsync ssh curl
 
 RUN rm -rf /var/lib/apt/list
 
