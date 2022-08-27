@@ -13,6 +13,7 @@ steps:
     #auto_tag: true Not working 
     tags: 
     - latest
+    - 8-22
   when:
     branch: [ main ]
     event: [ push ]
@@ -27,6 +28,7 @@ steps:
     #auto_tag: true Not working
     tags: 
     - dev
+    - 8-22
   when:
     branch: [ dev ]
     event: [ push ]
